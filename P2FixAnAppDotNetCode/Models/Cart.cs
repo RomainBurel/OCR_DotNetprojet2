@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace P2FixAnAppDotNetCode.Models
@@ -8,33 +9,39 @@ namespace P2FixAnAppDotNetCode.Models
     /// </summary>
     public class Cart : ICart
     {
+        private List<CartLine> _cartLineList { get; }
+
+        public Cart()
+        {
+            this._cartLineList = new List<CartLine>();
+        }
+
         /// <summary>
         /// Read-only property for display only
         /// </summary>
-        public IEnumerable<CartLine> Lines => GetCartLineList();
-
-        /// <summary>
-        /// Return the actual cartline list
-        /// </summary>
-        /// <returns></returns>
-        private List<CartLine> GetCartLineList()
-        {
-            return new List<CartLine>();
-        }
+        public IEnumerable<CartLine> Lines => this._cartLineList;
 
         /// <summary>
         /// Adds a product in the cart or increment its quantity in the cart if already added
         /// </summary>//
         public void AddItem(Product product, int quantity)
         {
-            // TODO implement the method
+            CartLine line = this._cartLineList.FirstOrDefault(l => l.Product.Id == product.Id);
+            if (line != null)
+            {
+                line.Quantity = Math.Min(product.Stock, line.Quantity + quantity);
+            }
+            else
+            {
+                int newLineId = this._cartLineList.Count() == 0 ? 1 : this._cartLineList.Select(l => l.OrderLineId).Max() + 1;
+                this._cartLineList.Add(new CartLine { OrderLineId = newLineId, Product = product, Quantity = Math.Min(product.Stock, quantity) });
+            }
         }
 
         /// <summary>
         /// Removes a product form the cart
         /// </summary>
-        public void RemoveLine(Product product) =>
-            GetCartLineList().RemoveAll(l => l.Product.Id == product.Id);
+        public void RemoveLine(Product product) => this._cartLineList.RemoveAll(l => l.Product.Id == product.Id);
 
         /// <summary>
         /// Get total value of a cart
@@ -76,7 +83,7 @@ namespace P2FixAnAppDotNetCode.Models
         /// </summary>
         public void Clear()
         {
-            List<CartLine> cartLines = GetCartLineList();
+            List<CartLine> cartLines = this._cartLineList;
             cartLines.Clear();
         }
     }
@@ -84,7 +91,9 @@ namespace P2FixAnAppDotNetCode.Models
     public class CartLine
     {
         public int OrderLineId { get; set; }
+
         public Product Product { get; set; }
+
         public int Quantity { get; set; }
     }
 }

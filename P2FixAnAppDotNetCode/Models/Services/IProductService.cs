@@ -3,7 +3,9 @@
     public interface IProductService
     {
         Product[] GetAllProducts();
+
         Product GetProductById(int id);
+
         void UpdateProductQuantities(Cart cart);
     }
 }

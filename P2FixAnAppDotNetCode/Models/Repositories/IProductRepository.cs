@@ -4,6 +4,8 @@
     {
         Product[] GetAllProducts();
 
+        Product GetProductById(int productId);
+
         void UpdateProductStocks(int productId, int quantityToRemove);
     }
 }
