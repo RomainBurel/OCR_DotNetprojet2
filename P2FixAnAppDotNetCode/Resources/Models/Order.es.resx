@@ -130,6 +130,6 @@
     <value>Introduzca un nombre</value>
   </data>
   <data name="ErrorMissingZipCode" xml:space="preserve">
-    <value>Introduzca un código postal</value>
+    <value>Introduzca un código postal </value>
   </data>
 </root>
