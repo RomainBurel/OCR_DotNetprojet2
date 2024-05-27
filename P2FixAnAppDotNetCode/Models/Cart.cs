@@ -66,22 +66,6 @@ namespace P2FixAnAppDotNetCode.Models
         }
 
         /// <summary>
-        /// Looks after a given product in the cart and returns if it finds it
-        /// </summary>
-        public Product FindProductInCartLines(int productId)
-        {
-            return this._cartLineList.Count() == 0 ? null : this._cartLineList.Select(l => l.Product).FirstOrDefault(p => p.Id == productId);
-        }
-
-        /// <summary>
-        /// Get a specific cartline by its index
-        /// </summary>
-        public CartLine GetCartLineByIndex(int index)
-        {
-            return Lines.ToArray()[index];
-        }
-
-        /// <summary>
         /// Clears a the cart of all added products
         /// </summary>
         public void Clear()
