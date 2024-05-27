@@ -70,8 +70,7 @@ namespace P2FixAnAppDotNetCode.Models
         /// </summary>
         public Product FindProductInCartLines(int productId)
         {
-            // TODO implement the method
-            return null;
+            return this._cartLineList.Count() == 0 ? null : this._cartLineList.Select(l => l.Product).FirstOrDefault(p => p.Id == productId);
         }
 
         /// <summary>
